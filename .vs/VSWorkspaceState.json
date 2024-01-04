@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\PDFFiller\\bin",
+    "\\PDFFiller\\bin\\Debug",
+    "\\PDFFiller\\bin\\Debug\\net6.0"
   ],
-  "SelectedNode": "\\Dockerfile",
+  "SelectedNode": "\\PDFFiller.sln",
   "PreviewInSolutionExplorer": false
 }
