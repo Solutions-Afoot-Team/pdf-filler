@@ -1,11 +1,8 @@
-﻿using iTextSharp.text.pdf;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BoldSign.Api;
+using BoldSign.Model;
+using iTextSharp.text.pdf;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PDFFiller;
 
@@ -15,12 +12,13 @@ internal class Form
     public string? TwoZeroTwo { get; set; }
     public string? DateCompany { get; set; }
     public string? Name { get; set; }
+    public string? Email { get; set; }
     public string? Title { get; set; }
     public string? CompanyName { get; set; }
     public string? DateMarketer { get; set; }
 
 
-    public void FillForm(Form form, HttpListenerContext context)
+    public void FillPDFAndSendForSign(Form form, HttpListenerContext context)
     {
 
         // Path to your PDF file
@@ -60,13 +58,13 @@ internal class Form
             }
         }
 
-        // Execute the function
-        Console.WriteLine("Field Values after setting: ");
-        foreach (var fieldName in fieldNames)
-        {
-            string fieldValue = GetFormFieldValue(modifiedPdfPath, fieldName);
-            Console.WriteLine($"Field '{fieldName}': {fieldValue}");
-        }
+        Console.WriteLine("New PDF created");
+        //Console.WriteLine("Field Values after setting: ");
+        //foreach (var fieldName in fieldNames)
+        //{
+        //    string fieldValue = GetFormFieldValue(modifiedPdfPath, fieldName);
+        //    Console.WriteLine($"Field '{fieldName}': {fieldValue}");
+        //}
 
         // Send a response
         HttpListenerResponse response = context.Response;
@@ -76,7 +74,8 @@ internal class Form
         response.OutputStream.Write(buffer, 0, buffer.Length);
         response.Close();
 
-        Console.ReadKey();
+        // use boldsign api to create/send document for signing
+        SendDocumentForSigning(form);
     }
 
     static void SetFormFieldValue(AcroFields fields, string fieldName, string newValue)
@@ -110,5 +109,69 @@ internal class Form
                 return null;
             }
         }
+    }
+
+    static void SendDocumentForSigning(Form form)
+    {
+        var apiClient = new ApiClient("https://api.boldsign.com", "*** api key ***");
+        var documentClient = new DocumentClient(apiClient);
+
+        var documentFilePath = new DocumentFilePath
+        {
+            ContentType = "application/pdf",
+            FilePath = "myPDF_modified.pdf",
+        };
+
+        var filesToUpload = new List<IDocumentFile>
+        {
+            documentFilePath,
+        };
+
+        var signatureField = new FormField(
+           id: "sign",
+           isRequired: true,
+           type: FieldType.Signature,
+           pageNumber: 1,
+           bounds: new Rectangle(x: 100, y: 100, width: 100, height: 50));
+
+        var formFieldCollections = new List<FormField>()
+        {
+            signatureField
+        };
+
+        var signer = new DocumentSigner(
+          signerName: form.Name,
+          signerType: SignerType.Signer,
+          signerEmail: form.Email,
+          formFields: formFieldCollections,
+          locale: Locales.EN);
+
+        var documentSigners = new List<DocumentSigner>()
+        {
+            signer
+        };
+
+        var sendForSign = new SendForSign()
+        {
+            Message = "please sign this",
+            Title = "Affiliate Marketing Agreement",
+            HideDocumentId = false,
+            Signers = documentSigners,
+            Files = filesToUpload,
+
+        };
+
+        try
+        {
+            var documentCreated = documentClient.SendDocument(sendForSign);
+            Console.WriteLine($"BoldSign DocumentCreated response: {documentCreated}");
+        }
+        catch (ApiException ex)
+        {
+            Console.WriteLine($"API Exception: {ex.Message}");
+        }
+
+        Console.ReadLine();
+
     }
 }
