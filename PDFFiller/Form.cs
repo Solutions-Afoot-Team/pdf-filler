@@ -67,7 +67,7 @@ internal class Form
         }
 
         Console.WriteLine("New PDF created");
-        //Console.WriteLine("Field Values after setting: ");
+        // Console.WriteLine("Field Values after setting: ");
         //foreach (var fieldName in fieldNames)
         //{
         //    string fieldValue = GetFormFieldValue(modifiedPdfPath, fieldName);
@@ -121,7 +121,7 @@ internal class Form
 
     public void SendDocumentForSigning(Form form)
     {
-        var apiClient = new ApiClient("https://api.boldsign.com", "*** api key ***");
+        var apiClient = new ApiClient("https://api.boldsign.com", "NDY4YTgxYTctYzZmYy00NTQyLTk4MTEtN2RlODkzMDJlNzdj");
         var documentClient = new DocumentClient(apiClient);
 
         var documentFilePath = new DocumentFilePath
