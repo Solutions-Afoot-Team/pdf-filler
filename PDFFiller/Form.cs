@@ -121,7 +121,7 @@ internal class Form
 
     public void SendDocumentForSigning(Form form)
     {
-        var apiClient = new ApiClient("https://api.boldsign.com", "NDY4YTgxYTctYzZmYy00NTQyLTk4MTEtN2RlODkzMDJlNzdj");
+        var apiClient = new ApiClient("https://api.boldsign.com", "*** api key ***");
         var documentClient = new DocumentClient(apiClient);
 
         var documentFilePath = new DocumentFilePath
