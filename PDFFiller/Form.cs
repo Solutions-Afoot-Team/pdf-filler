@@ -1,5 +1,6 @@
 ﻿using BoldSign.Api;
 using BoldSign.Model;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Net;
 using System.Text;
@@ -43,6 +44,13 @@ internal class Form
             using (var pdfStamper = new PdfStamper(pdfReader, new System.IO.FileStream(modifiedPdfPath, System.IO.FileMode.Create)))
             {
                 AcroFields fields = pdfStamper.AcroFields;
+                //var font = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
+
+                foreach (string fieldName in fieldNames)
+                {
+                    fields.SetFieldProperty(fieldName, "textsize", 11f, null);
+                    //fields.SetFieldProperty(fieldName, "textfont", font, null);
+                }
 
                 // Set field values for both fields
                 SetFormFieldValue(fields, fieldNames[0], form.HereAfter);
@@ -111,7 +119,7 @@ internal class Form
         }
     }
 
-    static void SendDocumentForSigning(Form form)
+    public void SendDocumentForSigning(Form form)
     {
         var apiClient = new ApiClient("https://api.boldsign.com", "*** api key ***");
         var documentClient = new DocumentClient(apiClient);
@@ -132,7 +140,7 @@ internal class Form
            isRequired: true,
            type: FieldType.Signature,
            pageNumber: 1,
-           bounds: new Rectangle(x: 100, y: 100, width: 100, height: 50));
+           bounds: new BoldSign.Model.Rectangle(x: 100, y: 8890, width: 350, height: 30));
 
         var formFieldCollections = new List<FormField>()
         {
