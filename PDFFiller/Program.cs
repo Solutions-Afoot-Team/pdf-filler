@@ -1,15 +1,7 @@
-﻿using System;
-using System.Reflection;
-using System.Reflection.PortableExecutable;
-using iTextSharp.text.pdf;
-using System.IO;
-using System.Reflection;
-using System.Net;
-using System.Text;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PDFFiller;
+using System.Net;
 
 class Program
 {
@@ -57,12 +49,13 @@ class Program
                                         TwoZeroTwo = (string)jsonBody["202"],
                                         DateCompany = (string)jsonBody["dateCompany"],
                                         Name = (string)jsonBody["name"],
+                                        Email = (string)jsonBody["email"],
                                         Title = (string)jsonBody["title"],
                                         CompanyName = (string)jsonBody["companyName"],
                                         DateMarketer = (string)jsonBody["dateMarketer"]
                                     };
 
-                                    form.FillForm(form, context);
+                                    form.FillPDFAndSendForSign(form, context);
 
                                 }
                                 catch (JsonException ex)
@@ -91,6 +84,5 @@ class Program
             // Stop the listener when done
             listener.Stop();
         }
-
     }
 }

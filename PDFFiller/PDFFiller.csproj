@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BoldSign.Api" Version="4.10.7" />
     <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="Json.Net" Version="1.0.33" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

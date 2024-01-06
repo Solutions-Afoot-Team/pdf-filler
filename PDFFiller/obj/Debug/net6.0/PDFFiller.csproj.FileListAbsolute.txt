@@ -18,3 +18,7 @@ C:\Users\Mason\workspace\PDFFiller\PDFFiller\obj\Debug\net6.0\PDFFiller.genrunti
 C:\Users\Mason\workspace\PDFFiller\PDFFiller\obj\Debug\net6.0\ref\PDFFiller.dll
 C:\Users\Mason\workspace\PDFFiller\PDFFiller\bin\Debug\net6.0\Json.Net.dll
 C:\Users\Mason\workspace\PDFFiller\PDFFiller\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Mason\workspace\PDFFiller\PDFFiller\bin\Debug\net6.0\BoldSign.Api.dll
+C:\Users\Mason\workspace\PDFFiller\PDFFiller\bin\Debug\net6.0\JsonSubTypes.dll
+C:\Users\Mason\workspace\PDFFiller\PDFFiller\obj\Debug\net6.0\PDFFiller.Properties.Resources.resources
+C:\Users\Mason\workspace\PDFFiller\PDFFiller\obj\Debug\net6.0\PDFFiller.csproj.GenerateResource.cache
