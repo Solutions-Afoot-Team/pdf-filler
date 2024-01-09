@@ -23,8 +23,8 @@ internal class Form
     {
 
         // Path to your PDF file
-        string pdfPath = "myPDF.pdf";
-        string modifiedPdfPath = "myPDF_modified.pdf";
+        string pdfPath = @"PDFFiles\myPDF.pdf";
+        string modifiedPdfPath = @"PDFFiles\myPDF_modified.pdf";
 
         // Specify the field names you want to set a value for
         string[] fieldNames = {
@@ -32,7 +32,7 @@ internal class Form
             "202 by and between Solutions Afoot LLC",
             "Signature",
             "Date",
-            "Signature_2",
+            "Signature2",
             "Typed or Printed Name",
             "Title",
             "Company Name",
@@ -45,6 +45,13 @@ internal class Form
             {
                 AcroFields fields = pdfStamper.AcroFields;
                 //var font = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
+                //AcroFields pdfFormFields = pdfReader.AcroFields;
+                //foreach (KeyValuePair<string, AcroFields.Item> kvp in pdfFormFields.Fields)
+                //{
+                //    string fieldName = kvp.Key.ToString();
+                //    string fieldValue = pdfFormFields.GetField(kvp.Key.ToString());
+                //    Console.WriteLine(fieldName + " " + fieldValue);
+                //}
 
                 foreach (string fieldName in fieldNames)
                 {
@@ -55,7 +62,9 @@ internal class Form
                 // Set field values for both fields
                 SetFormFieldValue(fields, fieldNames[0], form.HereAfter);
                 SetFormFieldValue(fields, fieldNames[1], form.TwoZeroTwo);
+                SetFormFieldValue(fields, fieldNames[2], "x");
                 SetFormFieldValue(fields, fieldNames[3], form.DateCompany);
+                //SetFormFieldValue(fields, fieldNames[4], "{{text|1|*|SIGN HERE}}");
                 SetFormFieldValue(fields, fieldNames[5], form.Name);
                 SetFormFieldValue(fields, fieldNames[6], form.Title);
                 SetFormFieldValue(fields, fieldNames[7], form.CompanyName);
@@ -83,7 +92,7 @@ internal class Form
         response.Close();
 
         // use boldsign api to create/send document for signing
-        SendDocumentForSigning(form);
+        //SendDocumentForSigning(form);
     }
 
     static void SetFormFieldValue(AcroFields fields, string fieldName, string newValue)
@@ -119,9 +128,9 @@ internal class Form
         }
     }
 
-    public void SendDocumentForSigning(Form form)
+    public async void SendDocumentForSigning(Form form)
     {
-        var apiClient = new ApiClient("https://api.boldsign.com", "*** api key ***");
+        var apiClient = new ApiClient("https://api.boldsign.com", "YWRhMDY2MTItMDhkZi00NzdkLTkyNWEtMjI5NGI4MjNjNzM0");
         var documentClient = new DocumentClient(apiClient);
 
         var documentFilePath = new DocumentFilePath

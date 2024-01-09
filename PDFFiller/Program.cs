@@ -20,6 +20,7 @@ class Program
             // Start the listener
             listener.Start();
             Console.WriteLine($"Listening on {baseUrl}");
+            Console.WriteLine($"Current directory: {Environment.CurrentDirectory}");
 
             // Handle requests in a separate thread
             ThreadPool.QueueUserWorkItem((o) =>

@@ -1,0 +1,21 @@
+# Ignore
+.dockerignore
+.env
+.git
+.gitignore
+.vs
+.vscode
+docker-compose.yml
+docker-compose.*.yml
+*/bin
+*/obj
+
+# Keep
+!/myPDF.pdf
+!/myPDF_modified.pdf
+!/PDFFiles
+
+# Ignore unnecessary files inside allowed directories
+# This should go after the allowed directories
+**/*~
+**/*.log
